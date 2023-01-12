@@ -6,7 +6,7 @@ import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import ProductsTable from "./components/productsTable";
 
 function App() {
-  const [idSearch, setIdSearch] = useState<number | null>(null);
+  const [idSearch, setIdSearch] = useState<number>();
   useEffect(() => {
     console.log(idSearch);
   }, [idSearch, setIdSearch]);

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
+import { createMuiTheme, makeStyles, styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -10,8 +10,9 @@ import Paper from "@mui/material/Paper";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
+    fontSize: 16,
+    fontWeight: "bold",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -19,34 +20,31 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
   // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
 
-function createData(id: number, name: string, year: number) {
-  return { id, name, year };
+function createData(id: number, name: string, year: number, color: string) {
+  return { id, name, year, color };
 }
 
 const rows = [
-  createData(1, "example 1", 2010),
-  createData(2, "example 2", 2012),
-  createData(3, "example 3", 2013),
+  createData(1, "example 1", 2010, "#98B2D1"),
+  createData(2, "example 2", 2012, "#FFFFF"),
+  createData(3, "example 3", 2013, "#98B2D1"),
 ];
 type Props = {
-  id?: number | null;
+  id?: number;
 };
 
 export default function ProductsTable({ id }: Props) {
   return (
-    <div className="w-[30em]">
+    <div className="w-[30em] ">
       <TableContainer component={Paper}>
         <Table aria-label="product table">
-          <TableHead>
+          <TableHead className="bg-emerald-400 ">
             <TableRow>
               <StyledTableCell>ID</StyledTableCell>
               <StyledTableCell align="right">Name</StyledTableCell>
@@ -56,9 +54,12 @@ export default function ProductsTable({ id }: Props) {
           <TableBody>
             {id
               ? rows
-                  .filter((product) => product.id == id)
+                  .filter((product) => product.id === Number(id))
                   .map((row) => (
-                    <StyledTableRow key={row.id}>
+                    <StyledTableRow
+                      key={row.id}
+                      className={`bg-[${row.color}]`}
+                    >
                       <StyledTableCell component="th" scope="row">
                         {row.id}
                       </StyledTableCell>
@@ -71,7 +72,7 @@ export default function ProductsTable({ id }: Props) {
                     </StyledTableRow>
                   ))
               : rows.map((row) => (
-                  <StyledTableRow key={row.id}>
+                  <StyledTableRow key={row.id} className={`bg-[${row.color}]`}>
                     <StyledTableCell component="th" scope="row">
                       {row.id}
                     </StyledTableCell>
