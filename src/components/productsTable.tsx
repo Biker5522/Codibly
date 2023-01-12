@@ -37,8 +37,11 @@ const rows = [
   createData(2, "example 2", 2012),
   createData(3, "example 3", 2013),
 ];
+type Props = {
+  id?: number | null;
+};
 
-export default function CustomizedTables() {
+export default function ProductsTable({ id }: Props) {
   return (
     <div className="w-[30em]">
       <TableContainer component={Paper}>
@@ -51,15 +54,31 @@ export default function CustomizedTables() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.id}>
-                <StyledTableCell component="th" scope="row">
-                  {row.id}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.name}</StyledTableCell>
-                <StyledTableCell align="right">{row.year}</StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {id
+              ? rows
+                  .filter((product) => product.id == id)
+                  .map((row) => (
+                    <StyledTableRow key={row.id}>
+                      <StyledTableCell component="th" scope="row">
+                        {row.id}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {row.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {row.year}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))
+              : rows.map((row) => (
+                  <StyledTableRow key={row.id}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.id}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">{row.name}</StyledTableCell>
+                    <StyledTableCell align="right">{row.year}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
           </TableBody>
         </Table>
       </TableContainer>
