@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
@@ -6,19 +6,16 @@ import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import ProductsTable from "./components/productsTable";
 
 function App() {
-  function createData(id: number, name: string, year: number) {
-    return { id, name, year };
-  }
+  const [idSearch, setIdSearch] = useState();
+  useEffect(() => {
+    console.log(idSearch);
+  }, [idSearch, setIdSearch]);
 
-  const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "name", headerName: "name", width: 130 },
-    { field: "year", headerName: "year", width: 130 },
-  ];
-  const rows = [
-    createData(1, "example ", 2000),
-    createData(2, "example2", 2010),
-  ];
+  //Get id value from search input
+  const handleChange = (event: any) => {
+    setIdSearch(event.target.value);
+  };
+
   return (
     <div className="App w-full h-[100vh] p-16">
       <div className="w-[40%] m-auto">
@@ -28,9 +25,16 @@ function App() {
             Products
           </h2>
           {/* Search box */}
-          <div className="flex items-end gap-2   ">
+          <div className="flex items-end gap-2 w-[8em]">
             <SearchIcon className="mb-1 scale-125" />
-            <TextField id="standard-basic" label="Id" variant="standard" />
+            <TextField
+              id="standard-basic"
+              label="Id"
+              variant="standard"
+              placeholder="Id"
+              type="number"
+              onChange={handleChange}
+            />
           </div>
           {/* Table */}
           <ProductsTable />
