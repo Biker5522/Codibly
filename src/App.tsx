@@ -7,9 +7,13 @@ import ProductsTable from "./components/productsTable";
 
 function App() {
   const [idSearch, setIdSearch] = useState<number>();
-  useEffect(() => {
-    console.log(idSearch);
-  }, [idSearch, setIdSearch]);
+
+  //Prevent from typing "-" sign
+  const handleKeyDown = (event: any) => {
+    if (event.key === "-") {
+      event.preventDefault();
+    }
+  };
 
   //Get id value from search input
   const handleChange = (event: any) => {
@@ -33,6 +37,7 @@ function App() {
               variant="standard"
               placeholder="Id"
               type="number"
+              onKeyDown={handleKeyDown}
               onChange={handleChange}
             />
           </div>

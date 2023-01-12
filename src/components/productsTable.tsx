@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
+//Styling Table
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.common.white,
@@ -18,7 +19,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: 14,
   },
 }));
-
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   // hide last border
   "&:last-child td, &:last-child th": {
@@ -26,15 +26,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+//Table Data Structure
 function createData(id: number, name: string, year: number, color: string) {
   return { id, name, year, color };
 }
 
+//Example data
 const rows = [
   createData(1, "example 1", 2010, "#98B2D1"),
   createData(2, "example 2", 2012, "#FFFFF"),
   createData(3, "example 3", 2013, "#98B2D1"),
 ];
+//Props
 type Props = {
   id?: number;
 };
@@ -44,6 +47,7 @@ export default function ProductsTable({ id }: Props) {
     <div className="w-[30em] ">
       <TableContainer component={Paper}>
         <Table aria-label="product table">
+          {/* Table Header */}
           <TableHead className="bg-emerald-400 ">
             <TableRow>
               <StyledTableCell>ID</StyledTableCell>
@@ -51,9 +55,11 @@ export default function ProductsTable({ id }: Props) {
               <StyledTableCell align="right">Year</StyledTableCell>
             </TableRow>
           </TableHead>
+          {/* Table Body */}
           <TableBody>
             {id
-              ? rows
+              ? //Filtered Table body
+                rows
                   .filter((product) => product.id === Number(id))
                   .map((row) => (
                     <StyledTableRow
@@ -71,7 +77,8 @@ export default function ProductsTable({ id }: Props) {
                       </StyledTableCell>
                     </StyledTableRow>
                   ))
-              : rows.map((row) => (
+              : //Table body
+                rows.map((row) => (
                   <StyledTableRow key={row.id} className={`bg-[${row.color}]`}>
                     <StyledTableCell component="th" scope="row">
                       {row.id}
