@@ -7,6 +7,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useGetAllProductsQuery, useGetProductQuery } from "../redux/apiSlice";
+import { useState, useEffect } from "react";
+import IProduct from "../interfaces/product";
 
 //Styling Table
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -39,10 +42,33 @@ const rows = [
 ];
 //Props
 type Props = {
-  id?: number;
+  id?: number | null;
+  page?: number | null;
+  products?: [];
 };
 
-export default function ProductsTable({ id }: Props) {
+export default function ProductsTable(props: Props) {
+  //const { data: AllProducts, loading: isLoadingProducts } =
+  // useGetAllProductsQuery();
+  const [tableData, setTableData] = useState([]);
+  const [productId, setProductId] = useState<number | null>();
+
+  //Check when id changes and set product id
+  useEffect(() => {
+    if (props.id) {
+      setProductId(props.id);
+    }
+  }, [props.id]);
+
+  useEffect(() => {
+    if (props.products) {
+      setTableData(props.products);
+      console.log(props.products);
+    }
+  }, [props.products]);
+
+  //let { data: Product, error: ProductError } = useGetProductQuery(1);
+
   return (
     <div className="w-[30em] ">
       <TableContainer component={Paper}>
@@ -57,36 +83,25 @@ export default function ProductsTable({ id }: Props) {
           </TableHead>
           {/* Table Body */}
           <TableBody>
-            {id
-              ? //Filtered Table body
-                rows
-                  .filter((product) => product.id === Number(id))
-                  .map((row) => (
-                    <StyledTableRow
-                      key={row.id}
-                      className={`bg-[${row.color}]`}
-                    >
-                      <StyledTableCell component="th" scope="row">
-                        {row.id}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {row.name}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {row.year}
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))
-              : //Table body
-                rows.map((row) => (
-                  <StyledTableRow key={row.id} className={`bg-[${row.color}]`}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.id}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{row.name}</StyledTableCell>
-                    <StyledTableCell align="right">{row.year}</StyledTableCell>
-                  </StyledTableRow>
-                ))}
+            {
+              //Table body
+              tableData.map((product: IProduct) => (
+                <StyledTableRow
+                  key={product.id}
+                  className={`bg-[${product.color}]`}
+                >
+                  <StyledTableCell component="th" scope="row">
+                    {product.id}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {product.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {product.year}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))
+            }
           </TableBody>
         </Table>
       </TableContainer>
