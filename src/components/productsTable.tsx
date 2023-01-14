@@ -1,5 +1,6 @@
 import * as React from "react";
 import { createMuiTheme, makeStyles, styled } from "@mui/material/styles";
+import { useLocation, useNavigate } from "react-router";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -10,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import { useGetAllProductsQuery, useGetProductQuery } from "../redux/apiSlice";
 import { useState, useEffect } from "react";
 import IProduct from "../interfaces/product";
+import { Navigate } from "react-router-dom";
 
 //Styling Table
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -43,16 +45,18 @@ const rows = [
 //Props
 type Props = {
   id?: number | null;
-  page?: number | null;
+  page: number;
   products?: [];
 };
 
 export default function ProductsTable(props: Props) {
-  //const { data: AllProducts, loading: isLoadingProducts } =
-  // useGetAllProductsQuery();
   const [tableData, setTableData] = useState([]);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const [page, setPage] = useState<number | null>(null);
   const [productId, setProductId] = useState<number | null>();
 
+  console.log("ProductTable............" + page);
   //Check when id changes and set product id
   useEffect(() => {
     if (props.id) {
@@ -61,13 +65,30 @@ export default function ProductsTable(props: Props) {
   }, [props.id]);
 
   useEffect(() => {
+    if (params.get("page")) {
+      console.log("Set page to params");
+      setPage(Number(params.get("page")));
+    } else navigate(`/products?page=1`);
+  }, [location]);
+
+  useEffect(() => {
     if (props.products) {
       setTableData(props.products);
-      console.log(props.products);
+      //console.log(props.products);
     }
   }, [props.products]);
-
+  const navigate = useNavigate();
   //let { data: Product, error: ProductError } = useGetProductQuery(1);
+  const increasePage = () => {
+    if (page) {
+      navigate(`/products?page=${page + 1}`);
+    }
+  };
+  const decreasePage = () => {
+    if (page && page > 1) {
+      navigate(`/products?page=${page - 1}`);
+    }
+  };
 
   return (
     <div className="w-[30em] ">
@@ -104,6 +125,10 @@ export default function ProductsTable(props: Props) {
             }
           </TableBody>
         </Table>
+        <div>
+          <button onClick={decreasePage}>Previous</button>
+          <button onClick={increasePage}>Next</button>
+        </div>
       </TableContainer>
     </div>
   );

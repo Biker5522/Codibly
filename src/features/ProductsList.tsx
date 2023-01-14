@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { useGetAllProductsQuery } from "../redux/apiSlice";
+import { useEffect, useState } from "react";
+import { useGetAllProductsQuery, useGetProductsQuery } from "../redux/apiSlice";
 import IProduct from "../interfaces/product";
 import ProductsTable from "../components/productsTable";
+import { useLocation, useSearchParams } from "react-router-dom";
 
-export const ProductsList = () => {
-  const [page, setPage] = useState(1);
-  const {
-    data: products,
-    isLoading,
-    isFetching,
-  } = useGetAllProductsQuery(page);
+interface Props {
+  page: number;
+}
 
+export const ProductsList = (props: any) => {
+  const { data: products, isLoading } = useGetProductsQuery(props.page);
+  console.log("ProductsList" + props.page);
   if (isLoading) {
     return <div>Loading</div>;
   }
@@ -21,9 +21,7 @@ export const ProductsList = () => {
 
   return (
     <div>
-      <button onClick={() => setPage(page - 1)}>Previous</button>
-      <button onClick={() => setPage(page + 1)}>Next</button>
-      <ProductsTable products={products.data} page={1} />
+      <ProductsTable products={products.data} page={props.page} />
     </div>
   );
 };
