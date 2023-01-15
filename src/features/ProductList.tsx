@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
-import { useGetAllProductsQuery, useGetProductsQuery } from "../redux/apiSlice";
+import { useGetAllProductsQuery, useGetProductQuery } from "../redux/apiSlice";
 import IProduct from "../interfaces/product";
 import ProductsTable from "../components/productsTable";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 interface Props {
-  page?: number;
+  id: number;
 }
 
-export const ProductsList = (props: any) => {
-  const { data: products, isLoading } = useGetProductsQuery(props.page);
-  console.log("ProductsList" + props.page);
+export const ProductList = (props: any) => {
+  const { data: product, isLoading } = useGetProductQuery(props.id);
+
   if (isLoading) {
     return <div>Loading</div>;
   }
 
-  if (!products?.data) {
+  if (!product?.data) {
     return <div>No posts:(</div>;
   }
 
   return (
     <div>
-      <ProductsTable products={products.data} page={props.page} />
+      <ProductsTable product={product.data} id={props.id} />
     </div>
   );
 };

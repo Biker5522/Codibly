@@ -13,18 +13,21 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { TableComponent } from "./components/tableComponent";
 
 function App() {
-  const [idSearch, setIdSearch] = useState<number | null>();
-
+  const [idSearch, setIdSearch] = useState<number>();
   //Prevent from typing "-" sign
   const handleKeyDown = (event: any) => {
-    if (event.key === "-") {
+    if (event.key === "-" || event.key === "+") {
       event.preventDefault();
     }
   };
 
   //Get id value from search input
   const handleChange = (event: any) => {
-    setIdSearch(event.target.value);
+    if (event.target.value < 0 || !event.target.value) {
+      event.target.value = 0;
+    } else {
+      setIdSearch(event.target.value);
+    }
   };
 
   return (
@@ -52,7 +55,7 @@ function App() {
                   />
                 </div>
                 {/* Table */}
-                <TableComponent />
+                <TableComponent id={idSearch} />
               </div>
             </div>
           </div>
