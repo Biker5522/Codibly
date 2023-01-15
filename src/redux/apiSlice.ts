@@ -8,7 +8,7 @@ export const productsApi: any = createApi({
       query: () => "products",
     }),
     getProducts: builder.query({
-      query: (page: number) => `products?page=${page}`,
+      query: (page: number) => `products?page=${page}&&per_page=5`,
     }),
     getProduct: builder.query({
       query: (id: number) => `product/${id}`,

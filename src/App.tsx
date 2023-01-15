@@ -7,13 +7,13 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { ApiProvider } from "@reduxjs/toolkit/query/react";
 import { productsApi } from "./redux/apiSlice";
-import { ProductsList } from "./features/ProductsList";
+import { ProductsList } from "./features/ProductsDetails";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { TableComponent } from "./components/tableComponent";
 
 function App() {
-  const [idSearch, setIdSearch] = useState<number>();
+  const [idSearch, setIdSearch] = useState<number | null>();
   //Prevent from typing "-" sign
   const handleKeyDown = (event: any) => {
     if (event.key === "-" || event.key === "+") {
@@ -23,8 +23,9 @@ function App() {
 
   //Get id value from search input
   const handleChange = (event: any) => {
-    if (event.target.value < 0 || !event.target.value) {
-      event.target.value = 0;
+    if (event.target.value <= 0 || !event.target.value) {
+      event.target.value = null;
+      setIdSearch(null);
     } else {
       setIdSearch(event.target.value);
     }

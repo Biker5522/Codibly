@@ -1,13 +1,8 @@
-import { useEffect, useState } from "react";
-import { useGetAllProductsQuery, useGetProductQuery } from "../redux/apiSlice";
-import IProduct from "../interfaces/product";
+import { useGetProductQuery } from "../redux/apiSlice";
 import ProductsTable from "../components/productsTable";
-import { useLocation, useSearchParams } from "react-router-dom";
-
-interface Props {
-  id: number;
-}
-
+// interface Props {
+//   id: number;
+// }
 export const ProductList = (props: any) => {
   const { data: product, isLoading } = useGetProductQuery(props.id);
 
