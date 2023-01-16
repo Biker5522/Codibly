@@ -126,7 +126,7 @@ export default function ProductsTable(props: Props) {
         <Table aria-label="product table">
           {/* Table Header */}
           <TableHead className="bg-emerald-400 ">
-            <TableRow>
+            <TableRow className="w-full">
               <StyledTableCell>ID</StyledTableCell>
               <StyledTableCell align="right">Name</StyledTableCell>
               <StyledTableCell align="right">Year</StyledTableCell>
@@ -140,7 +140,7 @@ export default function ProductsTable(props: Props) {
               productsData.map((product: IProduct) => (
                 <StyledTableRow
                   key={product.id}
-                  className="hover:border-r-4  hover:border-green-300"
+                  className="hover:border-r-2 border-emerald-400"
                   onClick={() => handleOpen(product)}
                 >
                   <StyledTableCell
@@ -188,7 +188,7 @@ export default function ProductsTable(props: Props) {
             <NavigateBeforeIcon />
           </button>
           <span className="text-black">
-            {page} of {maxPage}
+            <b>{page} </b>of {maxPage}
           </span>
           <button
             onClick={increasePage}

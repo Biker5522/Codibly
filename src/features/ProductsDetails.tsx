@@ -5,7 +5,7 @@ import ProductsTable from "../components/productsTable";
 //   page?: number;
 // }
 
-export const ProductsList = (props: any) => {
+export const ProductsDetails = (props: any) => {
   const { data: products, isLoading } = useGetProductsQuery(props.page);
   if (isLoading) {
     return <div>Loading</div>;
