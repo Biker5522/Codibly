@@ -6,18 +6,22 @@ import ProductsTable from "../components/productsTable";
 export const ProductDetail = (props: any) => {
   const { data: product, isLoading, error } = useGetProductQuery(props.id);
   console.log(props.id);
+
+  //Loading data
   if (isLoading) {
     return <div>Loading</div>;
   }
 
+  //If data is empty
   if (!product?.data) {
     return <div>No posts:</div>;
   }
-  if (product.error) {
-    return <div>{product.error}</div>;
-  }
+
+  //Handling errors
   if (error && error.status === 404) {
     return <div>Product not found</div>;
+  } else if (error) {
+    return <div>{error}</div>;
   }
 
   return (

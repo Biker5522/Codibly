@@ -44,17 +44,21 @@ type Props = {
 };
 
 export default function ProductsTable(props: Props) {
+  //Setting data
   const [productsData, setProductsData] = useState([]);
   const [productData, setProductData] = useState<IProduct | null>(null);
-  const [maxPage, setMaxPage] = useState<number>();
+
   //Navigation and url parameters
   const location = useLocation();
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
+
   //Props
   const [page, setPage] = useState<number | null>(null);
   const [productId, setProductId] = useState<number | null>();
   const [activeProduct, setActiveProduct] = useState<IProduct>();
+  const [maxPage, setMaxPage] = useState<number>();
+
   //Modal
   const [open, setOpen] = React.useState(false);
   const handleOpen = (product: IProduct) => {
@@ -162,10 +166,14 @@ export default function ProductsTable(props: Props) {
             productData ? (
               <StyledTableRow
                 key={productData.id}
-                className={`bg-blue`}
-                style={{ backgroundColor: productData.color }}
+                className="hover:border-r-2 border-emerald-400"
+                onClick={() => handleOpen(productData)}
               >
-                <StyledTableCell component="th" scope="row">
+                <StyledTableCell
+                  component="th"
+                  scope="row"
+                  style={{ backgroundColor: productData.color }}
+                >
                   {productData.id}
                 </StyledTableCell>
                 <StyledTableCell align="right">

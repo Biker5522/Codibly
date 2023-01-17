@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
@@ -8,11 +8,15 @@ import { ApiProvider } from "@reduxjs/toolkit/query/react";
 import { productsApi } from "./redux/apiSlice";
 
 import { TableComponent } from "./components/tableComponent";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function App() {
   const [idSearch, setIdSearch] = useState<number | null | undefined>(
     undefined
   );
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const navigate = useNavigate();
   //Prevent from typing "-" sign
   const handleKeyDown = (event: any) => {
     if (event.key === "-" || event.key === "+") {
@@ -25,6 +29,7 @@ function App() {
     if (event.target.value <= 0 || !event.target.value) {
       event.target.value = null;
       setIdSearch(null);
+      navigate(`/products?page=1`);
     } else {
       setIdSearch(event.target.value);
     }
