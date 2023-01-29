@@ -1,11 +1,10 @@
 import { useGetProductQuery } from "../redux/apiSlice";
 import ProductsTable from "../components/productsTable";
-// interface Props {
-//   id: number;
-// }
-export const ProductDetail = (props: any) => {
+interface Props {
+  id: number;
+}
+export const ProductDetail = (props: Props) => {
   const { data: product, isLoading, error } = useGetProductQuery(props.id);
-  console.log(props.id);
 
   //Loading data
   if (isLoading) {

@@ -69,7 +69,6 @@ export default function ProductsTable(props: Props) {
 
   //Product Id state
   useEffect(() => {
-    console.log(props.id + "passed prop");
     if (props.id) {
       setProductId(props.id);
     } else setProductId(null);
@@ -103,6 +102,7 @@ export default function ProductsTable(props: Props) {
       navigate(`/products?page=${page + 1}`);
     }
   };
+
   //Decrease page number
   const decreasePage = () => {
     if (page && page > 1) {
@@ -215,10 +215,15 @@ export default function ProductsTable(props: Props) {
         >
           <Box sx={style}>
             <div
-              className="float-left w-10 h-10"
+              className="float-left w-10 h-10 mr-2"
               style={{ backgroundColor: activeProduct.color }}
             ></div>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              className="ml-2"
+            >
               <b>{activeProduct.name.toUpperCase()}</b>
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>

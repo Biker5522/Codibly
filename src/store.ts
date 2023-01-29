@@ -1,4 +1,4 @@
-import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { productsApi } from "./redux/apiSlice";
 export const store = configureStore({
   reducer: {

@@ -10,31 +10,30 @@ interface Props {
 export const TableComponent = (props: Props) => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const [page, setPage] = useState<number | null>(null);
+  const [page, setPage] = useState<number>();
   const [id, setId] = useState<number | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    //page params
     if (params.get("page")) {
       setPage(Number(params.get("page")));
     } else {
       setPage(1);
     }
-    if (Number(params.get("id")) && props.id == undefined && props.id != null) {
+    //id from param
+    if (params.get("id") && props.id === undefined) {
       setId(Number(params.get("id")));
-    } else if (props.id != null && props.id != Number(params.get("id"))) {
+    }
+    //id from props
+    else if (props.id && Number(props.id) !== Number(params.get("id"))) {
       navigate(`/products?id=${props.id}`);
-    } else if (props.id == undefined && params.get("id")) {
-      setId(Number(params.get("id")));
-    } else if (props.id == null && !params.get("id")) {
-      setId(null);
-    } else if (params.get("id") && props.id != null) {
+    } else if (params.get("id") && props.id) {
       setId(Number(params.get("id")));
     } else {
       setId(null);
-      navigate(`/products?page=1`);
     }
-  }, [params, location]);
+  }, [params, location, navigate, props.id]);
 
   return (
     <div>
